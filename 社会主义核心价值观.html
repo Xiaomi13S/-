@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .div {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 24px;
+            background-color: aqua;
+            text-align: center;
+            line-height: 24px;
+            display: none;
+            animation: move .5s linear;
+        }
+        @keyframes move {
+            0% {}
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+        body {
+            height: 5000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="div">富强</div>
+    <script>
+        let i = 0, arr1 = [], num = 0;
+        //Math.floor(Math.random() * (M - N + 1)) + N
+        const arr = ['富强', '民主', '文明', '和谐', '自由', '平等', '公正', '法治', '爱国', '敬业', '诚信', '友善'];
+        const div = document.querySelector('div');
+        document.addEventListener('click', function (e) {
+            while (num === i) {
+                num = Math.floor(Math.random() * 12);
+            }
+            i = num;
+            for (let i = 0; i < 3; i++) {
+                arr1[i] = Math.floor(Math.random() * 256);
+            }
+            Vue.createApp({
+                data() {
+                    return {
+                        res: arr[num],
+                        open: 'block',
+                        X : e.pageX + 'px',
+                        Y : (e.pageY - document.documentElement.scrollTop) + 'px',
+                        color : `rgba(${arr1[0]},${arr1[1]},${arr1[2]},.5)`,
+                    }
+                },
+                mounted() {
+                    div.style.display = this.open;
+                    div.style.left = this.X;
+                    div.style.top = this.Y;
+                    div.style.backgroundColor = this.color;
+                    setTimeout(function () {
+                        div.style.display = 'none';
+                    }, 400);
+                },
+                template:
+                    `
+                    <div>{{res}}</div>
+                    `,
+            }).mount('.div');
+        });
+        div.addEventListener('selectstart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
